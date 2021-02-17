@@ -1,14 +1,11 @@
 * {
   box-sizing: border-box;
+  margin: auto;
 }
 
 body {
-  margin: auto;
-  background-color: blueviolet;
+  background-color: wheat;
 }
 
-img {
-  width: 15%;
-  height: 15%;
-}
+
 
