@@ -1,7 +1,40 @@
 body {
-  min-width: 480px;
+  max-width: 480px;
   max-height: 767px;
+  margin: auto;
 }
 
+img {
+  width: 90%;
+  height: 90%;
+  margin: auto 20px;
+}
 
+p {
+  margin-bottom: 20px;
+  text-align: center;
+}
 
+@media( min-width: 481px){
+
+  body {
+    max-width: 960px;
+    max-height: 767px;
+  }
+  
+  img {
+    width: 80%;
+    height: 80%;
+    margin: 20px auto;
+    border: 1px solid black;
+    box-shadow: 5px 5px grey;
+  }
+
+  p {
+    margin-bottom: 20px;
+    font-size: large;
+  }
+  ul {
+    float: left;
+  }
+}
