@@ -26,7 +26,9 @@ Animal.prototype.removeAnimal = function(){
   const $h2 = $('<h2></h2>').text(this.title);
   const $image = $('<img></img>').attr('src', this.url);
   const $p = $('<p></p>').text(this.description);
-  $('ul').empty();
+  //$('body').empty();
+  $('h2,p').hide();
+  $('img').hide();
 }
 let jsonFiles = ['data/page-1.json','data/page-1.json'];
 
@@ -81,8 +83,10 @@ function populateDropdown(jsonInfo){
   }
 }
 
+//Changes the drop down
 $('#select').change(function(){
   $('select option:selected').each(function(){
+    
     console.log(this);
     console.log($(this).text())
     let target = this;
@@ -92,6 +96,7 @@ $('#select').change(function(){
 
 function displayEntry(target){
     //console.log(`${$(target).text()} was clicked`);
+
     let keyword = $(target).attr('keyword');
     let animalsToDisplay = [];
     animalObjects.forEach(entry =>{      
@@ -112,5 +117,12 @@ Animal.prototype.renderWithJQueryAndMustache = function(){
   const animalTemplateHtml = $('#mustache-template').html();
   const templateOutput = Mustache.render(animalTemplateHtml,this);  
   $('body').append(templateOutput);
+}
+
+const hideEntry = function(targetEntry){
+
+  const animalTemplateHtml = $('#mustache-template').html();
+  console.log(animalTemplateHtml);
+  
 }
 
