@@ -8,13 +8,14 @@ function Animal(url, title, description, keyword, horns){
   this.description = description;
   this.keyword = keyword;
   this.horns = horns;
+  /*
   if (!Animal.allAnimals.includes(this)){
     Animal.allAnimals.push(this);
   }
+  */
 }
 
 Animal.prototype.renderAnimal = function(){
-  const $liBase = $('<div></div>');
   const $h2 = $('<h2></h2>').text(this.title);
   const $image = $('<img></img>').attr('src', this.url);
   const $p = $('<p></p>').text(this.description);
@@ -22,12 +23,12 @@ Animal.prototype.renderAnimal = function(){
 };
 
 Animal.prototype.removeAnimal = function(){
-  const $liBase = $('<div></div>');
   const $h2 = $('<h2></h2>').text(this.title);
   const $image = $('<img></img>').attr('src', this.url);
   const $p = $('<p></p>').text(this.description);
   $('ul').empty();
 }
+let jsonFiles = ['data/page-1.json','data/page-1.json'];
 
 $.ajax('data/page-1.json',{
   success:function (response){
@@ -40,13 +41,20 @@ $.ajax('data/page-1.json',{
   }
 });
 
-
+const animalObjects=[];
 function extractJsonData(jsonInfo){
   jsonInfo.forEach(animal => {
-    new Animal (animal.image_url, animal.title, animal.description, animal.keyword, animal.horns).renderAnimal();
-  });
-  //Animal.allAnimals.forEach(animalEntry => animalEntry.renderAnimal());
+    //new Animal (animal.image_url, animal.title, animal.description, animal.keyword, animal.horns).renderAnimal();
+    let tempAnimal = new Animal (animal.image_url, animal.title, animal.description,
+       animal.keyword, animal.horns);       
+      animalObjects.push(tempAnimal);
+    });
+  animalObjects.forEach(animal => {
+    animal.renderWithJQueryAndMustache();
+  })
 }
+//console.log(Animal.allAnimals);
+
 
 const currentOptions = {};
 
@@ -76,6 +84,7 @@ function populateDropdown(jsonInfo){
 $('#select').change(function(){
   $('select option:selected').each(function(){
     console.log(this);
+    console.log($(this).text())
     let target = this;
     displayEntry(target);
   })
@@ -85,7 +94,7 @@ function displayEntry(target){
     //console.log(`${$(target).text()} was clicked`);
     let keyword = $(target).attr('keyword');
     let animalsToDisplay = [];
-    Animal.allAnimals.forEach(entry =>{      
+    animalObjects.forEach(entry =>{      
       if(entry.keyword === keyword){
           console.log("Match!");
           animalsToDisplay.push(entry);
@@ -93,8 +102,15 @@ function displayEntry(target){
       }
     });
     animalsToDisplay.forEach(entry =>{
-      entry.renderAnimal();
+      console.log("entry test");
+      entry.renderWithJQueryAndMustache();
     })
 }
 
+Animal.prototype.renderWithJQueryAndMustache = function(){
+
+  const animalTemplateHtml = $('#mustache-template').html();
+  const templateOutput = Mustache.render(animalTemplateHtml,this);  
+  $('body').append(templateOutput);
+}
 
