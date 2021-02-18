@@ -1,7 +1,12 @@
 body {
-  max-width: 480px;
-  max-height: 767px;
+  width: 480px;
+  height: 767px;
   margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  align-content: center;
 }
 
 img {
@@ -38,3 +43,4 @@ p {
     float: left;
   }
 }
+
