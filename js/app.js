@@ -1,6 +1,7 @@
 'use strict';
 
 Animal.allAnimals = [];
+const animalTemplateHtml = $('#mustache-template').html();
 const pageOnejsonFile = 'data/page-1.json';
 const pageTwojsonFile = 'data/page-2.json';
 const animalObjects=[];
@@ -11,6 +12,7 @@ let buttonTwoClicked = false;
 let dropDownPopulated = false;
 let currentPage = 1;
 
+Mustache.parse(animalTemplateHtml);
 
 function Animal(url, title, description, keyword, horns){
   this.url = url;
@@ -32,10 +34,9 @@ Animal.prototype.removeAnimal = function(){
   const $h2 = $('<h2></h2>').text(this.title);
   const $image = $('<img></img>').attr('src', this.url);
   const $p = $('<p></p>').text(this.description);
-  //$('body').empty();
-  $('.entry').hide();
-  console.log("Removing: " );
-  console.log(this);
+  $('body > div.entry').hide();
+  //$('h1').empty();
+  console.log("Removing: " + this.title);
 }
 
 
@@ -73,27 +74,19 @@ $(document).ready(function(){
     }
     console.log("Current Page: " + currentPage);
   })
-  console.log(jsonFile);
 })
 
 const parseJson = () => {
   $.ajax(jsonFile,{
     success:function(response)
     {
-      //console.log('it works!');
-      console.log("response from parseJson");
-      console.log(response);
-      console.log("end response from parsJson");
       extractJsonData(response);
-      //TODO: populateDropdown need to be separate from parseJson to avoid duplicates
-      //populateDropdown(response);
     },
     error: function (req, status, error)
     {
-      console.log('it\'s broken', status, error);
+      console.log('Something went wrong when trying to parse the json file', status, error);
     }
   });
-  console.log("json file from parseJson: " + jsonFile);
 };
 
 parseJson();
@@ -103,7 +96,9 @@ function extractJsonData(jsonInfo)
   jsonInfo.forEach(function(animal)
   {
     let tempAnimal = new Animal (animal.image_url, animal.title, animal.description,animal.keyword, animal.horns);       
-      animalObjects.push(tempAnimal);
+      if(!animalObjects.includes(tempAnimal)){
+        animalObjects.push(tempAnimal);
+      }
   });
   animalObjects.forEach(function(animal) 
   {
@@ -117,9 +112,6 @@ function extractJsonData(jsonInfo)
 
 //*******************
 function populateDropdown(animalObjects){
-  console.log("Response: ");
-  console.log(animalObjects);
-  console.log("End");
   animalObjects.forEach(animal =>
     {
     let optionText = animal.keyword.toString().charAt(0).toUpperCase() + animal.keyword.slice(1);
@@ -146,7 +138,6 @@ function populateDropdown(animalObjects){
 //Changes the drop down
 $('#select').change(function(){
   $('select option:selected').each(function(){
-    
     console.log(this);
     console.log($(this).text())
     let target = this;
@@ -155,26 +146,21 @@ $('#select').change(function(){
 });
 
 function displayEntry(target){
-    //console.log(`${$(target).text()} was clicked`);
-
     let keyword = $(target).attr('keyword');
     let animalsToDisplay = [];
     animalObjects.forEach(entry =>{      
-      if(entry.keyword === keyword){
-          console.log("Match!");
+      if(entry.keyword === keyword)
+      {
           animalsToDisplay.push(entry);
           entry.removeAnimal();
       };
     });
     animalsToDisplay.forEach(entry =>{
-      console.log("entry test");
       entry.renderWithJQueryAndMustache();
     });
 };
 
 Animal.prototype.renderWithJQueryAndMustache = function(){
-
-  const animalTemplateHtml = $('#mustache-template').html();
   const templateOutput = Mustache.render(animalTemplateHtml,this);  
   $('body').append(templateOutput);
 };
