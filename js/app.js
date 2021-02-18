@@ -1,6 +1,15 @@
 'use strict';
 
 Animal.allAnimals = [];
+const pageOnejsonFile = 'data/page-1.json';
+const pageTwojsonFile = 'data/page-2.json';
+const animalObjects=[];
+const currentOptions = {};
+var jsonFile = pageOnejsonFile;
+let buttonOneClicked = false;
+let buttonTwoClicked = false;
+let currentPage = 1;
+
 
 function Animal(url, title, description, keyword, horns){
   this.url = url;
@@ -8,11 +17,7 @@ function Animal(url, title, description, keyword, horns){
   this.description = description;
   this.keyword = keyword;
   this.horns = horns;
-  /*
-  if (!Animal.allAnimals.includes(this)){
-    Animal.allAnimals.push(this);
-  }
-  */
+
 }
 
 Animal.prototype.renderAnimal = function(){
@@ -29,43 +34,9 @@ Animal.prototype.removeAnimal = function(){
   //$('body').empty();
   $('h2,p').hide();
   $('img').hide();
-<<<<<<< HEAD
-};
-
-const pageOnejsonFile = 'data/page-1.json';
-const pageTwojsonFile = 'data/page-2.json';
-let buttonOneClicked = false;
-let buttonTwoClicked = false;
-let currentPage = buttonOneClicked ? 1 : 2;
-
-$(document).ready(function()
-{
-  $('button:first-of-type').on('click', () =>
-  {
-    console.log('Clicked button 1');
-    resetPage();   
-  });
-  $('button:nth-of-type(2)').on('click', ()=>
-  {
-    console.log('Clicked button 2');
-    resetPage();
-  });
-=======
   $('.entry').hide();
 }
-let jsonFiles = ['data/page-1.json','data/page-1.json'];
 
-$.ajax('data/page-1.json',{
-  success:function (response){
-    //console.log('it works!');
-    extractJsonData(response);
-    populateDropdown(response);
-  },
-  error: function (req, status, error){
-    console.log('it\'s broken', status, error);
-  }
->>>>>>> drae-working
-});
 
 const resetPage = () =>{
   buttonOneClicked = !buttonOneClicked; 
@@ -78,7 +49,27 @@ const resetPage = () =>{
   parseJson();
 };
 
-let jsonFile = pageOnejsonFile;
+$(document).ready(function(){
+  $('button:first-of-type').on('click',function(){
+    console.log('Clicked Page 1 Button'); 
+    buttonOneClicked = true;   
+    if(currentPage > 1 & buttonOneClicked){
+      currentPage = 1;
+      resetPage();
+    }
+    console.log("Current Page: " + currentPage);
+  })
+  $('button:nth-of-type(2)').on('click',function(){
+    console.log('Clicked Page 2 Button');
+    buttonTwoClicked = true;
+    if(currentPage < 2 & buttonTwoClicked){
+      currentPage = 2;
+      resetPage();
+    }
+    console.log("Current Page: " + currentPage);
+  })
+})
+
 //TODO: Logic prevents swapping jsonFile to page-1;
 if(buttonTwoClicked && currentPage < 2 || buttonTwoClicked && currentPage === 2 || currentPage === 2)
 {
@@ -109,8 +100,6 @@ const parseJson = () => {
 };
 
 parseJson();
-const animalObjects=[];
-const currentOptions = {};
 
 function extractJsonData(jsonInfo)
 {
