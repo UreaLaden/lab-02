@@ -1,4 +1,4 @@
-body {
+/* body {
   width: 480px;
   height: 767px;
   margin: auto;
@@ -9,7 +9,7 @@ body {
   align-content: center;
 }
 
-img {
+div {
   width: 90%;
   height: 90%;
   margin: auto 20px;
@@ -43,4 +43,26 @@ p {
     float: left;
   }
 }
+ */
 
+body {
+  width: 100%;
+}
+
+div {
+  display: inline-flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
+  flex-direction: row;
+  width: 23%;
+  border: sienna 2px solid;
+  margin: auto;
+  flex: 1;
+}
+
+img {
+  max-width: 100%;
+  height: fit-content;
+}
