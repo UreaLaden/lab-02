@@ -1,8 +1,30 @@
 h2 {
   font-family: 'Roboto mono',monospace;
-  font-size: 50px;
+  font-size: 2em;
+  width:100em;
+  text-align: center;
+  margin: .25em auto .25em auto;
 }
 
 li{
   list-style: none;
+}
+
+p{  
+  width:80em;
+  text-align: center;
+  margin: .5em auto .25em auto;
+  font-size: 28px;
+}
+
+
+img{
+  box-shadow:5px 5px 5px 5px gray;
+}
+
+section #select{
+  justify-content: center;
+  width:28em;
+  height:2em;
+  margin:2em 0 auto 10em;
 }

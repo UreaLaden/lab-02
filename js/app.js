@@ -29,6 +29,7 @@ Animal.prototype.removeAnimal = function(){
   //$('body').empty();
   $('h2,p').hide();
   $('img').hide();
+<<<<<<< HEAD
 };
 
 const pageOnejsonFile = 'data/page-1.json';
@@ -49,6 +50,21 @@ $(document).ready(function()
     console.log('Clicked button 2');
     resetPage();
   });
+=======
+  $('.entry').hide();
+}
+let jsonFiles = ['data/page-1.json','data/page-1.json'];
+
+$.ajax('data/page-1.json',{
+  success:function (response){
+    //console.log('it works!');
+    extractJsonData(response);
+    populateDropdown(response);
+  },
+  error: function (req, status, error){
+    console.log('it\'s broken', status, error);
+  }
+>>>>>>> drae-working
 });
 
 const resetPage = () =>{
