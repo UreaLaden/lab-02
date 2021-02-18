@@ -16,17 +16,24 @@
       </script>
 </head>
 <body>
-  <div>
+  <section id="nav">
     <select id='select'>
       <option value="0">Filter by Keyword</option>  
     </select>
-  </div>
-  <script id="mustache-template" type="x-tmpl-mustache">
-    <div>
-      <h2>{{title}}</h2>
-      <img src={{url}} alt="">
-      <p>{{description}}</p>
+    <br>
+    <br>  
+    <div id="nav">
+      <button value=1>Page 1</button>
+      <button value=2>Page 2</button>
     </div>
+  </section>
+  <div></div>
+  <script id="mustache-template" type="x-tmpl-mustache">
+      <div class="entry">
+        <h2>{{title}}</h2>        
+        <img src={{url}} alt="">
+        <p>{{description}}</p>
+      </div>
   </script>
   <section id="template">
     <li>
@@ -35,10 +42,7 @@
     </li>
   </section> 
   
-  <div>
-    <button value=1>Page 1</button>
-    <button value=2>Page 2</button>
-  </div>
+
 </body>
 <script
   src="https://code.jquery.com/jquery-3.5.1.js"

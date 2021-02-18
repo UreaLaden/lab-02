@@ -53,16 +53,34 @@ div {
   display: inline-flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  align-items: center;
-  align-content: center;
+  /*align-items: center;*/
+  /*align-content: center;*/
+  justify-content: center;
   flex-direction: row;
-  width: 23%;
-  border: sienna 2px solid;
-  margin: auto;
+  width: 31%;
+  height:33%;
+  /*border: sienna 2px solid;*/
+  margin: 1em;
   flex: 1;
 }
 
 img {
   max-width: 100%;
-  height: fit-content;
+  max-height:40%
+}
+
+#nav{
+  width:40em;
+  justify-content: center;
+  align-items: center;
+  align-content:center;
+  height: 5%;
+  margin:auto;
+}
+.entry{
+  justify-content: space-around;
+}
+button{
+  margin:1em;
+  width:10em;
 }

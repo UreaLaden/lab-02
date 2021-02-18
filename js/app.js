@@ -29,6 +29,7 @@ Animal.prototype.removeAnimal = function(){
   //$('body').empty();
   $('h2,p').hide();
   $('img').hide();
+  $('.entry').hide();
 }
 let jsonFiles = ['data/page-1.json','data/page-1.json'];
 
