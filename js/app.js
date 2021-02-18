@@ -29,36 +29,85 @@ Animal.prototype.removeAnimal = function(){
   //$('body').empty();
   $('h2,p').hide();
   $('img').hide();
-}
-let jsonFiles = ['data/page-1.json','data/page-1.json'];
+};
 
-$.ajax('data/page-1.json',{
-  success:function (response){
-    //console.log('it works!');
-    extractJsonData(response);
-    populateDropdown(response);
-  },
-  error: function (req, status, error){
-    console.log('it\'s broken', status, error);
-  }
+const pageOnejsonFile = 'data/page-1.json';
+const pageTwojsonFile = 'data/page-2.json';
+let buttonOneClicked = false;
+let buttonTwoClicked = false;
+let currentPage = buttonOneClicked ? 1 : 2;
+
+$(document).ready(function()
+{
+  $('button:first-of-type').on('click', () =>
+  {
+    console.log('Clicked button 1');
+    resetPage();   
+  });
+  $('button:nth-of-type(2)').on('click', ()=>
+  {
+    console.log('Clicked button 2');
+    resetPage();
+  });
 });
 
-const animalObjects=[];
-function extractJsonData(jsonInfo){
-  jsonInfo.forEach(animal => {
-    //new Animal (animal.image_url, animal.title, animal.description, animal.keyword, animal.horns).renderAnimal();
-    let tempAnimal = new Animal (animal.image_url, animal.title, animal.description,
-       animal.keyword, animal.horns);       
-      animalObjects.push(tempAnimal);
-    });
-  animalObjects.forEach(animal => {
-    animal.renderWithJQueryAndMustache();
-  })
+const resetPage = () =>{
+  buttonOneClicked = !buttonOneClicked; 
+  buttonTwoClicked = !buttonTwoClicked;  
+  console.log(jsonFile);
+  console.log("Current Page:" + currentPage);
+  animalObjects.forEach(animal =>{
+    animal.removeAnimal();
+  });
+  parseJson();
+};
+
+let jsonFile = pageOnejsonFile;
+//TODO: Logic prevents swapping jsonFile to page-1;
+if(buttonTwoClicked && currentPage < 2 || buttonTwoClicked && currentPage === 2 || currentPage === 2)
+{
+    jsonFile = pageTwojsonFile;
 }
-//console.log(Animal.allAnimals);
+else if(buttonOneClicked && currentPage > 1 || buttonOneClicked && currentPage === 1 || currentPage === 1)
+{
+    jsonFile = pageOnejsonFile;
+}
+else
+{
+  jsonFile = pageOnejsonFile;
+}
 
+const parseJson = () => {
+  $.ajax(jsonFile,{
+    success:function(response)
+    {
+      console.log('it works!');
+      extractJsonData(response);
+      populateDropdown(response);
+    },
+    error: function (req, status, error)
+    {
+      console.log('it\'s broken', status, error);
+    }
+  });
+};
 
+parseJson();
+const animalObjects=[];
 const currentOptions = {};
+
+function extractJsonData(jsonInfo)
+{
+  jsonInfo.forEach(function(animal)
+  {
+    let tempAnimal = new Animal (animal.image_url, animal.title, animal.description,animal.keyword, animal.horns);       
+      animalObjects.push(tempAnimal);
+  });
+  animalObjects.forEach(function(animal) 
+  {
+      animal.renderWithJQueryAndMustache();
+  });
+};
 
 function populateDropdown(jsonInfo){
   
@@ -91,7 +140,7 @@ $('#select').change(function(){
     console.log($(this).text())
     let target = this;
     displayEntry(target);
-  })
+  });
 });
 
 function displayEntry(target){
@@ -104,25 +153,18 @@ function displayEntry(target){
           console.log("Match!");
           animalsToDisplay.push(entry);
           entry.removeAnimal();
-      }
+      };
     });
     animalsToDisplay.forEach(entry =>{
       console.log("entry test");
       entry.renderWithJQueryAndMustache();
-    })
-}
+    });
+};
 
 Animal.prototype.renderWithJQueryAndMustache = function(){
 
   const animalTemplateHtml = $('#mustache-template').html();
   const templateOutput = Mustache.render(animalTemplateHtml,this);  
   $('body').append(templateOutput);
-}
-
-const hideEntry = function(targetEntry){
-
-  const animalTemplateHtml = $('#mustache-template').html();
-  console.log(animalTemplateHtml);
-  
-}
+};
 
