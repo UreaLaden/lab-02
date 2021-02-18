@@ -1,10 +1,15 @@
-body {
-  max-width: 480px;
-  max-height: 767px;
+/* body {
+  width: 480px;
+  height: 767px;
   margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  align-content: center;
 }
 
-img {
+div {
   width: 90%;
   height: 90%;
   margin: auto 20px;
@@ -37,4 +42,27 @@ p {
   ul {
     float: left;
   }
+}
+ */
+
+body {
+  width: 100%;
+}
+
+div {
+  display: inline-flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
+  flex-direction: row;
+  width: 23%;
+  border: sienna 2px solid;
+  margin: auto;
+  flex: 1;
+}
+
+img {
+  max-width: 100%;
+  height: fit-content;
 }
