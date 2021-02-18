@@ -8,6 +8,7 @@ const currentOptions = {};
 var jsonFile = pageOnejsonFile;
 let buttonOneClicked = false;
 let buttonTwoClicked = false;
+let dropDownPopulated = false;
 let currentPage = 1;
 
 
@@ -32,9 +33,9 @@ Animal.prototype.removeAnimal = function(){
   const $image = $('<img></img>').attr('src', this.url);
   const $p = $('<p></p>').text(this.description);
   //$('body').empty();
-  $('h2,p').hide();
-  $('img').hide();
   $('.entry').hide();
+  console.log("Removing: " );
+  console.log(this);
 }
 
 
@@ -43,9 +44,11 @@ const resetPage = () =>{
   buttonTwoClicked = !buttonTwoClicked;  
   console.log(jsonFile);
   console.log("Current Page:" + currentPage);
+  console.log("Animal Object Count from resetPage: " + animalObjects.length);
   animalObjects.forEach(animal =>{
     animal.removeAnimal();
   });
+  dropDownPopulated = false;
   parseJson();
 };
 
@@ -55,6 +58,7 @@ $(document).ready(function(){
     buttonOneClicked = true;   
     if(currentPage > 1 & buttonOneClicked){
       currentPage = 1;
+      jsonFile = pageOnejsonFile;
       resetPage();
     }
     console.log("Current Page: " + currentPage);
@@ -64,43 +68,36 @@ $(document).ready(function(){
     buttonTwoClicked = true;
     if(currentPage < 2 & buttonTwoClicked){
       currentPage = 2;
+      jsonFile = pageTwojsonFile;
       resetPage();
     }
     console.log("Current Page: " + currentPage);
   })
+  console.log(jsonFile);
 })
-
-//TODO: Logic prevents swapping jsonFile to page-1;
-if(buttonTwoClicked && currentPage < 2 || buttonTwoClicked && currentPage === 2 || currentPage === 2)
-{
-    jsonFile = pageTwojsonFile;
-}
-else if(buttonOneClicked && currentPage > 1 || buttonOneClicked && currentPage === 1 || currentPage === 1)
-{
-    jsonFile = pageOnejsonFile;
-}
-else
-{
-  jsonFile = pageOnejsonFile;
-}
 
 const parseJson = () => {
   $.ajax(jsonFile,{
     success:function(response)
     {
-      console.log('it works!');
+      //console.log('it works!');
+      console.log("response from parseJson");
+      console.log(response);
+      console.log("end response from parsJson");
       extractJsonData(response);
-      populateDropdown(response);
+      //TODO: populateDropdown need to be separate from parseJson to avoid duplicates
+      //populateDropdown(response);
     },
     error: function (req, status, error)
     {
       console.log('it\'s broken', status, error);
     }
   });
+  console.log("json file from parseJson: " + jsonFile);
 };
 
 parseJson();
-
+populateDropdown(animalObjects);
 function extractJsonData(jsonInfo)
 {
   jsonInfo.forEach(function(animal)
@@ -112,16 +109,24 @@ function extractJsonData(jsonInfo)
   {
       animal.renderWithJQueryAndMustache();
   });
+  if(dropDownPopulated === false){
+    populateDropdown(animalObjects);
+    dropDownPopulated = true;
+  }
 };
 
-function populateDropdown(jsonInfo){
-  
-  jsonInfo.forEach(animal =>{
+//*******************
+function populateDropdown(animalObjects){
+  console.log("Response: ");
+  console.log(animalObjects);
+  console.log("End");
+  animalObjects.forEach(animal =>
+    {
     let optionText = animal.keyword.toString().charAt(0).toUpperCase() + animal.keyword.slice(1);
     let optionValue = animal.keyword;
     const $option = new Option(optionText,optionValue);
     currentOptions[animal.keyword] = true;
-  });  
+  }); 
   const objKeys = Object.keys(currentOptions);
   let value = 1;
   for(let key in objKeys)
@@ -136,6 +141,7 @@ function populateDropdown(jsonInfo){
     $('select').append($newOption);
   }
 }
+//**************************** */
 
 //Changes the drop down
 $('#select').change(function(){
