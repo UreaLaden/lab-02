@@ -15,18 +15,19 @@ Number and name of feature: Feature #1:Display Images
 
 Estimate of time needed to complete: 1.5 hrs
 
-Start time: _____
+Start time: 5:15pm EST
 
-Finish time: _____
+Finish time: 2:45EST
 
-Actual time needed to complete: _____
+Actual time needed to complete: 5hrs
 
-How are we implementing it?
+#### How are we implementing it?
 Use AJAX, specifically $.ajax(), to read the provided JSON file.
 Each object should become a new instance of a constructor function. Refer to the data to determine the necessary properties.
 Use jQuery to make a copy of the HTML template of the photo component. For each object, fill in the duplicated template with its properties, then append the copy to the DOM.
 Feature #2: Filter images
-Why are we implementing this feature?
+
+#### Why are we implementing this feature?
 As a user, I want to be able to filter the images so that I can view only images that match a keyword.
 What are we going to implement?
 Given that a user clicks on the dropdown menu When the user selects one of the options Then only the images whose keyword matches the option should be displayed
